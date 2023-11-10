@@ -1,8 +1,9 @@
- import java.text.ParseException;
+import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-class Task {
+class Task implements Serializable {
     private String description;
     private boolean completed;
     private Date dueDate;
@@ -33,6 +34,12 @@ class Task {
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return "[" + (completed ? "X" : " ") + "] " + description + " (Fecha límite: " + dateFormat.format(dueDate) + ")";
+    }
+
+    // Método para obtener una representación en formato CSV de la tarea
+    public String toCsvString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return description + "," + (completed ? "X" : "") + "," + dateFormat.format(dueDate);
     }
 }
 
@@ -72,6 +79,19 @@ class TaskManager {
             System.out.println("Número de tarea inválido.");
         }
     }
+
+    // Método para guardar tareas en un archivo CSV
+    public void saveTasksToCsv() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("tasks.csv"))) {
+            for (Task task : tasks) {
+                writer.println(task.toCsvString());
+            }
+            System.out.println("Tareas guardadas en el archivo CSV.");
+        } catch (IOException e) {
+            System.out.println("Error al guardar las tareas en el archivo CSV.");
+            e.printStackTrace();
+        }
+    }
 }
 
 public class TaskOrganizerApp {
@@ -84,7 +104,8 @@ public class TaskOrganizerApp {
             System.out.println("1. Agregar tarea");
             System.out.println("2. Mostrar tareas");
             System.out.println("3. Marcar tarea como completada");
-            System.out.println("4. Salir");
+            System.out.println("4. Guardar tareas en CSV");
+            System.out.println("5. Salir");
             System.out.print("Elije una opción: ");
             int option = scanner.nextInt();
             scanner.nextLine();  // Consume el salto de línea después de la entrada numérica
@@ -112,6 +133,10 @@ public class TaskOrganizerApp {
                     break;
 
                 case 4:
+                    taskManager.saveTasksToCsv();
+                    break;
+
+                case 5:
                     System.out.println("¡Gracias por usar el Organizador de Tareas!");
                     return;
 
