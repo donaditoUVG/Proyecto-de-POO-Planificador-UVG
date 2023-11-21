@@ -2,6 +2,41 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+//
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+//
+/**
+ * @author LOS DEL GRUPO 3, DA
+ * El código contiguo es remanente del intento de conectar el proyecto de Java con MySQL
+ *  
+/** class ConexionMySQL {
+    // Definir información de conexión
+    private static final String URL = "jdbc:mysql://localhost:3306/organizador";
+    private static final String USUARIO = "root";
+    private static final String CONTRASEÑA = "Heretic 2023";
+
+    // Método para obtener la conexión
+    public static Connection obtenerConexion() {
+        try {
+            // Registrar el controlador JDBC
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            System.out.println("¡La conexión ha sido exitosa, Donado!");
+            // Obtener la conexión
+            return DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+        } catch (ClassNotFoundException | SQLException e) {
+
+            // Manejar las excepciones
+            e.printStackTrace();
+            throw new RuntimeException("Error al conectar a la base de datos");
+        }
+    }
+}
+ */
 
 class Task implements Serializable {
     private String description;
@@ -99,8 +134,33 @@ public class TaskOrganizerApp {
         TaskManager taskManager = new TaskManager();
         Scanner scanner = new Scanner(System.in);
 
+        /**Connection conexion = ConexionMySQL.obtenerConexion();
+
+        try {
+            
+            String consultaSQL = "SELECT * FROM Usuario";
+            PreparedStatement statement = conexion.prepareStatement(consultaSQL);
+            ResultSet resultSet = statement.executeQuery();
+
+            // Procesar los resultados
+            while (resultSet.next()) {
+                // Trabajar con los datos obtenidos, por ejemplo:
+                int id = resultSet.getInt("id");
+                String nombre = resultSet.getString("nombre");
+                System.out.println("ID: " + id + ", Nombre: " + nombre);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+
+        //
+*/ //FIN DEL ERROR
+
+
         while (true) {
-            System.out.println("\n=== Organizador de Tareas ===");
+            System.out.println("\n                    === Student Pro ===");
+            System.out.println("== ¡Bienvenido al mejor organizador de tareas del mundo! ==");
             System.out.println("1. Agregar tarea");
             System.out.println("2. Mostrar tareas");
             System.out.println("3. Marcar tarea como completada");
@@ -142,8 +202,9 @@ public class TaskOrganizerApp {
 
                 default:
                     System.out.println("Opción inválida. Por favor, elige una opción válida.");
-            }
+            } 
         }
+    
     }
 
     private static Date parseDate(String dateString) {
